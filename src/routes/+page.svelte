@@ -3,25 +3,51 @@
 	import Divider from '../lib/Divider.svelte';
 	import InputGroup from '../lib/InputGroup.svelte';
 
-	let days: number;
-	let months: number;
-	let years: number;
+	let temp_age = {
+		years: 0,
+		months: 0,
+		days: 0
+	};
+	let age = {
+		years: 0,
+		months: 0,
+		days: 0
+	};
 
 	const handleInputChange = (event: any) => {
-		console.log(event.detail.name, event.detail.value);
 		switch (event.detail.name) {
 			case 'day':
-				days = event.detail.value;
+				temp_age.days = event.detail.value;
 				break;
 			case 'month':
-				months = event.detail.value;
+				temp_age.months = event.detail.value;
 				break;
 			case 'year':
-				years = event.detail.value;
+				temp_age.years = event.detail.value;
 				break;
 			default:
 				throw new Error('An unexpected error occurred.');
 		}
+		if (temp_age.years && temp_age.months && temp_age.days) {
+			age = { ...processAge(temp_age) };
+		}
+	};
+	
+	const processAge = (tmp_age: { years: number; months: number; days: number }) => {
+		let today = new Date();
+		let birthDate = new Date(tmp_age.years, tmp_age.months, tmp_age.days);
+		let age = today.getFullYear() - birthDate.getFullYear();
+		let m = today.getMonth() - birthDate.getMonth();
+		if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+			age--;
+			m += 12;
+		}
+		let d = today.getDate() - birthDate.getDate();
+		if (d < 0) {
+			m--;
+			d += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+		}
+		return { years: age, months: m, days: d };
 	};
 </script>
 
@@ -60,13 +86,13 @@
 
 	<div class="grid grid-flow-row italic font-bold lg:text-7xl md:text-5xl text-3xl mt-7">
 		<p>
-			<span class="text-purple-600">{years || '--'}</span> years
+			<span class="text-purple-600">{age.years || '--'}</span> years
 		</p>
 		<p>
-			<span class="text-purple-600">{months || '--'}</span> months
+			<span class="text-purple-600">{age.months || '--'}</span> months
 		</p>
 		<p>
-			<span class="text-purple-600">{days || '--'}</span> days
+			<span class="text-purple-600">{age.days || '--'}</span> days
 		</p>
 	</div>
 </div>
