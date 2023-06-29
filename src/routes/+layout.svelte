@@ -1,5 +1,7 @@
-<script lang="ts"> 
+<script lang="ts">
 	import '../app.css';
 </script>
 
-<slot /> 
+<main class="min-h-screen min-w-full grid place-items-center content-center w-fit">
+	<slot />
+</main>
