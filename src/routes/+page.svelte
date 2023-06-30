@@ -2,6 +2,7 @@
 	import Datalist from '../lib/Datalist.svelte';
 	import Divider from '../lib/Divider.svelte';
 	import InputNumberGroup from '../lib/InputNumberGroup.svelte';
+	import moment from 'moment';
 
 	let invalidDate = false;
 
@@ -10,35 +11,48 @@
 		months: undefined,
 		days: undefined
 	};
-	
+
 	let temp_age = { years: 0, months: 0, days: 0 };
 
-	const dateIsValid = (date: Date) => {
+	const isValidDate = (dateString: string) => {
+		let date = new Date(dateString);
 		return date instanceof Date && !isNaN(Number(date));
 	};
 
 	const handleButtonClick = () => {
-		const dateString = `${temp_age.years}-${temp_age.days}-${temp_age.months}`;
-		const date = new Date(dateString);
-		const log = dateIsValid(date) ? (age = { ...processAge(temp_age) }) : !(invalidDate = true);
-		console.log(log);
+		let processedAge = processAge(temp_age);
+		if (processedAge.valid) {
+			age.days = processedAge.days;
+			age.months = processedAge.months;
+			age.years = processedAge.years;
+			invalidDate = age.years === 0 && age.months === 0 && age.days === 0;
+		}
+		if (invalidDate) {
+			age = { years: undefined, months: undefined, days: undefined };
+		}
 	};
 
 	const processAge = (tmp_age: { years: number; months: number; days: number }) => {
-		let today = new Date();
-		let birthDate = new Date(tmp_age.years, tmp_age.days, tmp_age.months);
-		let age = today.getFullYear() - birthDate.getFullYear();
-		let m = today.getMonth() - birthDate.getMonth();
-		if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-			age--;
-			m += 12;
+		const dateString = `${tmp_age.years}-${tmp_age.months.toLocaleString('en-US', {
+			minimumIntegerDigits: 2,
+			useGrouping: false
+		})}-${tmp_age.days}`;
+		if (!isValidDate(dateString)) {
+			invalidDate = true;
+			return { valid: false };
 		}
-		let d = today.getDate() - birthDate.getDate();
-		if (d < 0) {
-			m--;
-			d += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
-		}
-		return { years: age, months: m, days: d };
+		let date = new Date(dateString);
+		let totalMonths = moment().diff(date, 'months');
+		let years = totalMonths / 12;
+		years = parseInt(years as unknown as string);
+		let months = totalMonths % 12;
+		let days = moment().diff(moment(date).add(years, 'years').add(months, 'months'), 'days');
+		return {
+			valid: true,
+			years: years,
+			months: months,
+			days: days
+		};
 	};
 
 	const pipeAge = (num?: number) => {
@@ -50,6 +64,7 @@
 	<div class="container">
 		<div id="input" class="flex gap-x-2">
 			<InputNumberGroup
+				{invalidDate}
 				bind:value={temp_age.days}
 				name={'day'}
 				min={1}
@@ -59,6 +74,7 @@
 				required={true}
 			/>
 			<InputNumberGroup
+				{invalidDate}
 				bind:value={temp_age.months}
 				name={'month'}
 				min={1}
@@ -68,6 +84,7 @@
 				required={true}
 			/>
 			<InputNumberGroup
+				{invalidDate}
 				bind:value={temp_age.years}
 				name={'year'}
 				min={1950}

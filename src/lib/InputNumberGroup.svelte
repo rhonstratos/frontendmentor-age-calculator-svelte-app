@@ -6,7 +6,8 @@
 		placeholder: string,
 		list: string | null,
 		required: boolean = false,
-		invalid: boolean = false;
+		invalid: boolean = false,
+		invalidDate: boolean = false;
 
 	const validateInput = () => {
 		const validity = value >= min && value <= max ? true : false;
@@ -14,13 +15,13 @@
 		return validity;
 	};
 
-	export { value, name, min, max, placeholder, list, required, invalid };
+	export { value, name, min, max, placeholder, list, required, invalid, invalidDate };
 </script>
 
-<div class="form-group flex flex-grow flex-col">
+<div class="form-group flex flex-grow flex-col relative">
 	<label
-		class:text-neutral-400={!invalid}
-		class:text-red-600={invalid}
+		class:text-neutral-400={!invalidDate && !invalid}
+		class:text-red-600={invalidDate || invalid}
 		class="text-xs font-semibold uppercase leading-loose tracking-widest"
 		for={name}
 	>
@@ -30,9 +31,13 @@
 	<input
 		bind:value
 		on:change={() => validateInput()}
-		class="rounded-md border p-2 font-bold {invalid
-			? 'invalid:border-red-400 invalid:text-red-600 invalid:placeholder:text-red-400 focus:invalid:border-red-400 focus:invalid:ring-red-400'
-			: 'border-neutral-200 placeholder-neutral-400'}"
+		class:border-neutral-200={!invalid}
+		class:placeholder-neutral-400={!invalid}
+		class:border-red-400={invalidDate || invalid}
+		class:placeholder:text-red-400={invalidDate || invalid}
+		class:focus:border-red-400={invalidDate || invalid}
+		class:focus:ring-red-400={invalidDate || invalid}
+		class="rounded-md border p-2 font-bold"
 		id={name}
 		{name}
 		type="number"
@@ -43,12 +48,7 @@
 		{required}
 	/>
 
-	<label
-		for="name"
-		class:block={invalid}
-		class:hidden={!invalid}
-		class="mt-2 italic text-red-600 first-letter:uppercase"
-	>
+	<label for="name" class:hidden={!invalid} class="absolute -bottom-6 mt-2 italic text-red-600 first-letter:uppercase">
 		must be a valid {name}
 	</label>
 </div>
