@@ -3,11 +3,14 @@
 	import Divider from '../lib/Divider.svelte';
 	import InputGroup from '../lib/InputGroup.svelte';
 
+	let invalidDate = false;
+
 	let temp_age = {
 		years: 0,
 		months: 0,
 		days: 0
 	};
+
 	let age: { years?: number; months?: number; days?: number } = {
 		years: undefined,
 		months: undefined,
@@ -28,14 +31,21 @@
 			default:
 				throw new Error('An unexpected error occurred.');
 		}
-		if (temp_age.years && temp_age.months && temp_age.days) {
-			age = { ...processAge(temp_age) };
-		}
+	};
+
+	const dateIsValid = (date: Date) => {
+		return date instanceof Date && !isNaN(Number(date));
+	};
+	const handleButtonClick = () => {
+		const dateString = `${temp_age.years}-${temp_age.days}-${temp_age.months}`;
+		const date = new Date(dateString);
+		const log = dateIsValid(date) ? (age = { ...processAge(temp_age) }) : !(invalidDate = true);
+		console.log(log);
 	};
 
 	const processAge = (tmp_age: { years: number; months: number; days: number }) => {
 		let today = new Date();
-		let birthDate = new Date(tmp_age.years, tmp_age.months, tmp_age.days);
+		let birthDate = new Date(tmp_age.years, tmp_age.days, tmp_age.months);
 		let age = today.getFullYear() - birthDate.getFullYear();
 		let m = today.getMonth() - birthDate.getMonth();
 		if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
@@ -55,43 +65,48 @@
 	};
 </script>
 
-<div class="rounded-lg bg-white p-10 m-0 lg:w-[900px] md:w-[750px]">
-	<div id="input" class="container grid grid-flow-col gap-x-2">
-		<InputGroup
-			on:change={handleInputChange}
-			name={'day'}
-			type="number"
-			min={1}
-			max={32}
-			placeholder="DD"
-			list="days_list"
-			required={true}
-		/>
-		<InputGroup
-			on:change={handleInputChange}
-			name={'month'}
-			type="number"
-			min={1}
-			max={12}
-			placeholder="MM"
-			list="months_list"
-			required={true}
-		/>
-		<InputGroup
-			on:change={handleInputChange}
-			name={'year'}
-			type="number"
-			min={1950}
-			max={2100}
-			placeholder="YYYY"
-			list={null}
-			required={true}
-		/>
+<div class="m-0 rounded-lg bg-white p-10 md:w-[750px] lg:w-[900px]">
+	<div class="container">
+		<div id="input" class="flex gap-x-2">
+			<InputGroup
+				on:change={handleInputChange}
+				name={'day'}
+				type="number"
+				min={1}
+				max={32}
+				placeholder="DD"
+				list="days_list"
+				required={true}
+			/>
+			<InputGroup
+				on:change={handleInputChange}
+				name={'month'}
+				type="number"
+				min={1}
+				max={12}
+				placeholder="MM"
+				list="months_list"
+				required={true}
+			/>
+			<InputGroup
+				on:change={handleInputChange}
+				name={'year'}
+				type="number"
+				min={1950}
+				max={2100}
+				placeholder="YYYY"
+				list={null}
+				required={true}
+			/>
+		</div>
+		<p class:hidden={!invalidDate} class="fixed italic text-red-600 first-letter:uppercase">
+			Must be a valid date
+		</p>
 	</div>
 
-	<Divider />
+	<Divider on:click={handleButtonClick} />
 
-	<div class="container grid grid-flow-row italic font-bold lg:text-7xl md:text-5xl text-3xl mt-9">
+	<div class="container mt-9 grid grid-flow-row text-3xl font-bold italic md:text-5xl lg:text-7xl">
 		<p>
 			<span class="text-purple-600">{pipeAge(age.years)}</span> years
 		</p>
