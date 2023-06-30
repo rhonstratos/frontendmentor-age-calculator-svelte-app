@@ -5,13 +5,14 @@
 		min: number,
 		max: number,
 		placeholder: string,
-		list: string | null;
+		list: string | null,
+		required: boolean = false;
 	const dispatch = createEventDispatcher();
 	const onValueChange = (event: any) => {
 		dispatch('change', { value: event.target.value, name: name });
 	};
 
-	export { name, type, min, max, placeholder, list };
+	export { name, type, min, max, placeholder, list, required };
 </script>
 
 <div class="form-group flex flex-col">
@@ -31,5 +32,6 @@
 		{max}
 		{placeholder}
 		{list}
+		{required}
 	/>
 </div>

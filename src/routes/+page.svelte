@@ -8,10 +8,10 @@
 		months: 0,
 		days: 0
 	};
-	let age = {
-		years: 0,
-		months: 0,
-		days: 0
+	let age: { years?: number; months?: number; days?: number } = {
+		years: undefined,
+		months: undefined,
+		days: undefined
 	};
 
 	const handleInputChange = (event: any) => {
@@ -32,7 +32,7 @@
 			age = { ...processAge(temp_age) };
 		}
 	};
-	
+
 	const processAge = (tmp_age: { years: number; months: number; days: number }) => {
 		let today = new Date();
 		let birthDate = new Date(tmp_age.years, tmp_age.months, tmp_age.days);
@@ -49,18 +49,23 @@
 		}
 		return { years: age, months: m, days: d };
 	};
+
+	const pipeAge = (num?: number) => {
+		return num ?? '--';
+	};
 </script>
 
 <div class="rounded-lg bg-white p-10 m-0 lg:w-[900px] md:w-[750px]">
-	<div id="input" class="grid grid-flow-col gap-x-2">
+	<div id="input" class="container grid grid-flow-col gap-x-2">
 		<InputGroup
 			on:change={handleInputChange}
 			name={'day'}
 			type="number"
-			min={0}
+			min={1}
 			max={32}
 			placeholder="DD"
 			list="days_list"
+			required={true}
 		/>
 		<InputGroup
 			on:change={handleInputChange}
@@ -70,6 +75,7 @@
 			max={12}
 			placeholder="MM"
 			list="months_list"
+			required={true}
 		/>
 		<InputGroup
 			on:change={handleInputChange}
@@ -79,20 +85,21 @@
 			max={2100}
 			placeholder="YYYY"
 			list={null}
+			required={true}
 		/>
 	</div>
 
 	<Divider />
 
-	<div class="grid grid-flow-row italic font-bold lg:text-7xl md:text-5xl text-3xl mt-7">
+	<div class="container grid grid-flow-row italic font-bold lg:text-7xl md:text-5xl text-3xl mt-9">
 		<p>
-			<span class="text-purple-600">{age.years || '--'}</span> years
+			<span class="text-purple-600">{pipeAge(age.years)}</span> years
 		</p>
 		<p>
-			<span class="text-purple-600">{age.months || '--'}</span> months
+			<span class="text-purple-600">{pipeAge(age.months)}</span> months
 		</p>
 		<p>
-			<span class="text-purple-600">{age.days || '--'}</span> days
+			<span class="text-purple-600">{pipeAge(age.days)}</span> days
 		</p>
 	</div>
 </div>
