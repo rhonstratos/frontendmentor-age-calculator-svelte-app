@@ -73,7 +73,7 @@
 				name={'day'}
 				type="number"
 				min={1}
-				max={32}
+				max={31}
 				placeholder="DD"
 				list="days_list"
 				required={true}
