@@ -1,38 +1,53 @@
-# create-svelte
+# Frontend Mentor - Age calculator app solution
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+This is a solution to the [Age calculator app challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/age-calculator-app-dF9DFFpj-Q). Frontend Mentor challenges help you improve your coding skills by building realistic projects. 
 
-## Creating a project
+## Table of contents
 
-If you're seeing this, you've probably already done this step. Congrats!
+- [Overview](#overview)
+  - [The challenge](#the-challenge) 
+  - [Links](#links)
+- [My process](#my-process)
+  - [Built with](#built-with)  
+- [Author](#author) 
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+## Overview
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+### The challenge
 
-## Developing
+Users should be able to:
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+- View an age in years, months, and days after submitting a valid date through the form
+- Receive validation errors if:
+  - Any field is empty when the form is submitted
+  - The day number is not between 1-31
+  - The month number is not between 1-12
+  - The year is in the future
+  - The date is invalid e.g. 31/04/1991 (there are 30 days in April)
+- View the optimal layout for the interface depending on their device's screen size
+- See hover and focus states for all interactive elements on the page
+- **Bonus**: See the age numbers animate to their final number when the form is submitted 
 
-```bash
-npm run dev
+### Links
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+- Solution URL: [Add solution URL here](https://your-solution-url.com)
+- Live Site URL: [Add live site URL here](https://frontendmentor-age-calculator-svelte-app.vercel.app/)
 
-## Building
+## My process
 
-To create a production version of your app:
+### Built with
 
-```bash
-npm run build
-```
+- Semantic HTML5 markup
+- [momentjs](https://www.npmjs.com/package/moment)
+- [Tailwindcss](https://tailwindcss.com/)  
+- [Svelte](https://svelte.dev/) 
 
-You can preview the production build with `npm run preview`.
+### What I learned
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+I am now currently using frontendmentor as a way to try, practice, and do some sandbox things with many frontend frameworks. So this entry is my sandbox solution while playing with svelte. 
+ 
+
+## Author
+
+- Github - [rhonstratos](https://github.com/rhonstratos)
+- Frontend Mentor - [@rhonstratos](https://www.frontendmentor.io/profile/rhonstratos) 
