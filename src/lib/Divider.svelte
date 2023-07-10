@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import ArrowIcon from './ArrowIcon.svelte';
+
 	const dispatch = createEventDispatcher();
 	const handleClick = () => {
 		dispatch('click', true);
 	};
 </script>
 
-<div class="mt-12 grid h-0 md:mt-14 lg:mt-20">
+<div class="mt-16 grid h-0 md:mt-20">
 	<hr class="relative h-px border-0 bg-neutral-200" />
 	<ArrowIcon
 		on:click={handleClick}

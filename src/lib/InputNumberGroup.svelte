@@ -30,7 +30,7 @@
 		class:placeholder:text-red-400={invalid || invalidAll}
 		class:focus:border-red-400={invalid || invalidAll}
 		class:focus:ring-red-400={invalid || invalidAll}
-		class="rounded-md border p-2 font-bold"
+		class="rounded-md border p-2 font-bold" 
 		id={name}
 		{name}
 		type="number"
@@ -44,7 +44,7 @@
 	<label
 		for="name"
 		class:hidden={!invalid}
-		class="absolute -bottom-6 mt-2 italic text-red-600 first-letter:uppercase"
+		class="absolute -bottom-8 mt-2 whitespace-pre-line break-words text-xs italic leading-tight tracking-tighter text-red-600 first-letter:uppercase md:-bottom-5"
 	>
 		must be a valid {name}
 	</label>

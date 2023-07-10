@@ -93,7 +93,7 @@
 	};
 </script>
 
-<div class="m-0 rounded-lg bg-white p-10 md:w-[750px] lg:w-[900px]">
+<div class="m-0 w-11/12 rounded-lg bg-white p-4 md:w-[750px] md:p-10 lg:w-[850px] lg:p-12">
 	<div class="container">
 		<div id="input" class="flex gap-x-2">
 			<InputNumberGroup
@@ -137,7 +137,9 @@
 
 	<Divider on:click={handleButtonClick} />
 
-	<div class="container mt-9 grid grid-flow-row text-3xl font-bold italic md:text-5xl lg:text-7xl">
+	<div
+		class="container mt-14 grid grid-flow-row text-3xl font-bold italic md:mt-9 md:text-5xl lg:text-7xl"
+	>
 		<p>
 			<span class="text-purple-600">{age.years || '--'}</span> years
 		</p>
